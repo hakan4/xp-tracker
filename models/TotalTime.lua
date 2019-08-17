@@ -30,16 +30,5 @@ function TotalTime:GetData()
     local xpPercentageOfLevelPerHour = Calculator:PercentageOfTotal(xpPerHour, totalXPForLevel)
     local timeToLevel60 =  Calculator:TimeToDestination(Experience:GetXPNeededTolevel(60), currentXP, self.time)
 
-    print('######')
-    print('totLevel: '..totalXPForLevel)
-    print('curLevel: '..currentXPForLevel)
-    print('curExp: '..currentXP)
-    print('toLev: '..toLevelXP)
-    
-    print('time: '..self.time)
-    print('xpPerH: '..xpPerHour)
-    print('timeToLevel: '..timeToLevel)
-
-    print('######')
     return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60
 end

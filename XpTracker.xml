@@ -6,14 +6,15 @@
 <Script file="models/Experience.lua"/>
 <Script file="models/Utils.lua"/>
 <Script file="models/Calculator.lua"/>
+<Script file="models/Printer.lua"/>
 <Frame name="XpTracker_Frame" frameStrata="DIALOG" parent="UIParent" movable="true">
 	<Size><AbsDimension x="215" y="225"/></Size>
 	<Anchors><Anchor point="CENTER"/></Anchors>
 	<Scripts>
 		<OnLoad>XpTracker_OnLoad(self);</OnLoad>
 		<OnEvent>XpTracker_OnEvent(self, event, ...);</OnEvent>
-		<OnMouseDown>XpTracker_Frame:StartMoving();</OnMouseDown>
-      	<OnMouseUp>XpTracker_Frame:StopMovingOrSizing();</OnMouseUp>
+		<OnMouseDown>XpTracker_StartMoving();</OnMouseDown>
+      	<OnMouseUp>XpTracker_StopMoving();</OnMouseUp>
 		<OnUpdate>XpTracker_OnUpdate(self, elapsed);</OnUpdate>
 	</Scripts>
 	<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background"

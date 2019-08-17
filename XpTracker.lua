@@ -1,7 +1,7 @@
 XpTracker_SavedVariables = { }
 
 local events = {}
-local session, level, totalTime, updateTimer
+local session, level, totalTime, updateTimer2
 
 
 -- UI SCRIPTS --
@@ -14,8 +14,13 @@ function XpTracker_OnLoad()
 	SLASH_XpTracker1 = "/xptracker"
 	SLASH_XpTracker2 = "/xpt"
 	SlashCmdList["XpTracker"] = XpTracker_SlashCmd
+	
+	session = Session:Create()
+	level = Level:Create()
+	totalTime = TotalTime:Create()
+	RequestTimePlayed()
 
-	print("Loaded XpTracker Addon")
+	Printer:Loaded()
 end
 
 function XpTracker_OnEvent(self, event, ...)
@@ -27,9 +32,19 @@ function XpTracker_OnUpdate(self, elapsed)
 	totalTime:UpdateTime(elapsed)
 end
 
-function XpTracker_SlashCmd(msg)
-	if(msg == 'reset') then
+function XpTracker_SlashCmd(command)
+	local parsedCommand = string.lower(command)
+	if(parsedCommand == 'reset') then
 		XpTracker_OnReset()
+		Printer:Print('Session was resetted')
+	elseif(parsedCommand == 'lock') then
+		XpTracker_SavedVariables['locked'] = 1
+		Printer:Print('Locked the frame')
+	elseif(parsedCommand == 'unlock') then
+		XpTracker_SavedVariables['locked'] = 0
+		Printer:Print('Unlocked the frame')
+	else
+		Printer:Help()
 	end
 end
 
@@ -38,17 +53,27 @@ function XpTracker_OnReset(self, ...)
 	XpTracker_UpdateUI()
 end
 
+function XPTracker_Locked()
+	return XpTracker_SavedVariables['locked'] or 0
+end
+
+function XpTracker_StartMoving(self, ...)
+	if(XPTracker_Locked() == 1) then return end
+	XpTracker_Frame:StartMoving(self, ...);
+end
+
+function XpTracker_StopMoving(self, ...)
+	XpTracker_Frame:StopMovingOrSizing(self, ...);
+end
+
 
 -- EVENT HANDLERS --
 function events:PLAYER_ENTERING_WORLD(event, ...)
 	updateTimer = C_Timer.NewTicker(2, XpTracker_UpdateUI)
+	updateTimer2 = C_Timer.NewTicker(10, XpTracker_UpdateUI10Second)
 	
-	session = Session:Create()
-	level = Level:Create()
-	totalTime = TotalTime:Create()
-
-	RequestTimePlayed()
 	XpTracker_GetExperienceData()
+	XpTracker_GetLevelExpPerTotalTime()
 	XpTracker_UpdateUI()
 end
 
@@ -60,6 +85,8 @@ end
 function events:PLAYER_LEAVING_WORLD(event, ...)
 	updateTimer:Cancel()
 	updateTimer = nil
+	updateTimer2:Cancel()
+	updateTimer2 = nil
 end
 
 function events:VARIABLES_LOADED(event, ...)
@@ -83,11 +110,13 @@ end
 
 
 -- RENDERING --
+function XpTracker_UpdateUI10Second()
+	XpTracker_GetLevelExpPerTotalTime()
+end
 
 function XpTracker_UpdateUI()
 	XpTracker_GetSessionExpPerHour()
 	XpTracker_GetLevelExpPerHour()
-	XpTracker_GetLevelExpPerTotalTime()
 end
 
 function XpTracker_GetSessionExpPerHour()

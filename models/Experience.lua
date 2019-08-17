@@ -61,6 +61,8 @@ xpPerlevel[56] = { level = 58, xp = 195000 }
 xpPerlevel[57] = { level = 59, xp = 202300 }
 xpPerlevel[58] = { level = 60, xp = 209800 }
 
+level60TotalXP = 4084700
+
 function Experience:GetCurrentXP()
     return UnitXP('player')
 end
@@ -79,6 +81,19 @@ end
 
 function Experience:GetCurrentLevel()
     return UnitLevel('player')
+end
+
+function Experience:GetLevel60TotalXP()
+    return level60TotalXP
+end
+
+function Experience:GetCurrentTotalXP()
+    local currentLevel = self:GetCurrentLevel()
+    local accumulatedXP = self:GetCurrentXP()
+    for i = 2, currentLevel do
+        accumulatedXP = accumulatedXP + self:GetXPForLevel(i)
+    end
+    return accumulatedXP
 end
 
 function Experience:GetXPForLevel(level)

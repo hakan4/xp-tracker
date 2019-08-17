@@ -2,10 +2,12 @@
 <Script file="XpTracker.lua"/>
 <Script file="models/Level.lua"/>
 <Script file="models/Session.lua"/>
+<Script file="models/TotalTime.lua"/>
 <Script file="models/Experience.lua"/>
 <Script file="models/Utils.lua"/>
+<Script file="models/Calculator.lua"/>
 <Frame name="XpTracker_Frame" frameStrata="DIALOG" parent="UIParent" movable="true">
-	<Size><AbsDimension x="215" y="175"/></Size>
+	<Size><AbsDimension x="215" y="225"/></Size>
 	<Anchors><Anchor point="CENTER"/></Anchors>
 	<Scripts>
 		<OnLoad>XpTracker_OnLoad(self);</OnLoad>
@@ -46,6 +48,11 @@
 			<FontString name="$parent_ExpLevel" inherits="GameFontNormalSmall" justifyH="LEFT" spacing="3">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_ExpSession" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</FontString>
+			<FontString name="$parent_ExpTotal" inherits="GameFontNormalSmall" justifyH="LEFT" spacing="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_ExpLevel" relativePoint="BOTTOMLEFT"/>
 				</Anchors>
 			</FontString>
 		</Layer>

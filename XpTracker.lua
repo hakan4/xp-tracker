@@ -1,7 +1,7 @@
 XpTracker_SavedVariables = { }
 
 local events = {}
-local session, level, updateTimer
+local session, level, totalTime, updateTimer
 
 
 -- UI SCRIPTS --
@@ -24,6 +24,7 @@ end
 
 function XpTracker_OnUpdate(self, elapsed)
 	level:UpdateTime(elapsed)
+	totalTime:UpdateTime(elapsed)
 end
 
 function XpTracker_SlashCmd(msg)
@@ -44,6 +45,7 @@ function events:PLAYER_ENTERING_WORLD(event, ...)
 	
 	session = Session:Create()
 	level = Level:Create()
+	totalTime = TotalTime:Create()
 
 	RequestTimePlayed()
 	XpTracker_GetExperienceData()
@@ -74,8 +76,9 @@ function events:PLAYER_LEVEL_UP(event, ...)
 	session:PlayerLevelUp()
 end
 
-function events:TIME_PLAYED_MSG(event, totalTime, levelTime)
-	level:SetInitialTime(totalTime, levelTime)
+function events:TIME_PLAYED_MSG(event, time, levelTime)
+	level:SetInitialTime(time, levelTime)
+	totalTime:SetInitialTime(time)
 end
 
 
@@ -84,6 +87,7 @@ end
 function XpTracker_UpdateUI()
 	XpTracker_GetSessionExpPerHour()
 	XpTracker_GetLevelExpPerHour()
+	XpTracker_GetLevelExpPerTotalTime()
 end
 
 function XpTracker_GetSessionExpPerHour()
@@ -104,6 +108,16 @@ function XpTracker_GetLevelExpPerHour()
 	local timeToLevel60 = string.format('|cff888888Time to level 60: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel60))
 
 	XpTracker_Frame_ExpLevel:SetText(xpPerHourText .. timeToLevel..timeToLevel60)
+end
+
+function XpTracker_GetLevelExpPerTotalTime()
+	local xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60 = totalTime:GetData()
+	local xpPercentageOfLevelPerHourText = string.format('|cffFFF569( %s%% )', xpPercentageOfLevelPerHour)
+	local xpPerHourText = string.format('|cff888888Total XP: |cffffffff%s |cff888888 / h %s\n', xpPerHour, xpPercentageOfLevelPerHourText)
+	local timeToLevel = string.format('|cff888888Time to level: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel))
+	local timeToLevel60 = string.format('|cff888888Time to level 60: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel60))
+
+	XpTracker_Frame_ExpTotal:SetText(xpPerHourText .. timeToLevel..timeToLevel60)
 end
 
 function XpTracker_GetExperienceData()

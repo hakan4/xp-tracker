@@ -27,11 +27,12 @@ function Level:GetData()
     if(not self.levelTime) then return 'N/A', -1, 'N/A' end
     local totalXP = Experience:GetCurrentXPMax()
 	local currentXP = Experience:GetCurrentXP()
-	local toLevelXP = totalXP - currentXP
-	local xpPerHour = math.floor(currentXP / self.levelTime * 3600 + 0.5);
-	local timeToLevel = (currentXP == 0) and -1 or toLevelXP / currentXP * self.levelTime;
-    local xpPercentageOfLevelPerHour = math.ceil((xpPerHour / totalXP) * 10000) / 100
-    local timeToLevel60 = Experience:GetXPNeededTolevel(60) / currentXP * self.levelTime
+    local toLevelXP = totalXP - currentXP
+    
+    local xpPerHour = Calculator:XPPerHour(currentXP, self.levelTime)
+    local timeToLevel =  Calculator:TimeToDestination(toLevelXP, currentXP, self.levelTime)
+    local xpPercentageOfLevelPerHour = Calculator:PercentageOfTotal(xpPerHour, totalXP)
+    local timeToLevel60 =  Calculator:TimeToDestination(Experience:GetXPNeededTolevel(60), currentXP, self.levelTime)
 
     return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60
 end

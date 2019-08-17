@@ -31,6 +31,7 @@ function Level:GetData()
 	local xpPerHour = math.floor(currentXP / self.levelTime * 3600 + 0.5);
 	local timeToLevel = (currentXP == 0) and -1 or toLevelXP / currentXP * self.levelTime;
     local xpPercentageOfLevelPerHour = math.ceil((xpPerHour / totalXP) * 10000) / 100
+    local timeToLevel60 = Experience:GetXPNeededTolevel(60) / currentXP * self.levelTime
 
-    return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour
+    return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60
 end

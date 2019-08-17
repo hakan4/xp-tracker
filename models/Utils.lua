@@ -18,6 +18,7 @@ function Utils:GetTimeParts(s)
 end
 
 function Utils:GetEstTimeText(s)
+	if(not s or s == -1 or s == math.huge) then return 'N/A' end
 	local timeText = "";
 	local days, hours, minutes, seconds = Utils:GetTimeParts(s)
 	local fracdays = days + (hours/24);

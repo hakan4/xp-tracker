@@ -5,4 +5,4 @@ Commands
 
 For resetting session
 /xpt reset
-/xptracker reset 
+/xptracker reset

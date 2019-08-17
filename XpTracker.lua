@@ -61,7 +61,7 @@ function events:PLAYER_LEAVING_WORLD(event, ...)
 end
 
 function events:VARIABLES_LOADED(event, ...)
-	print(XpTracker_SavedVariables)
+	
 end
 
 function events:PLAYER_XP_UPDATE(event, ...)
@@ -87,21 +87,23 @@ function XpTracker_UpdateUI()
 end
 
 function XpTracker_GetSessionExpPerHour()
-	local xpPerHour, timeToLevel, xpPercentageOfLevelPerHour = session:GetData()
+	local xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60 = session:GetData()
 	local xpPercentageOfLevelPerHourText = string.format('|cffFFF569( %s%% )', xpPercentageOfLevelPerHour)
 	local xpPerHourText = string.format('|cff888888Session XP: |cffffffff%s |cff888888 / h %s\n', xpPerHour, xpPercentageOfLevelPerHourText)
 	local timeToLevel = string.format('|cff888888Time to level: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel))
+	local timeToLevel60 = string.format('|cff888888Time to level 60: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel60))
 
-	XpTracker_Frame_ExpSession:SetText(xpPerHourText .. timeToLevel)
+	XpTracker_Frame_ExpSession:SetText(xpPerHourText .. timeToLevel..timeToLevel60)
 end
 
 function XpTracker_GetLevelExpPerHour()
-	local xpPerHour, timeToLevel, xpPercentageOfLevelPerHour = level:GetData()
+	local xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60 = level:GetData()
 	local xpPercentageOfLevelPerHourText = string.format('|cffFFF569( %s%% )', xpPercentageOfLevelPerHour)
 	local xpPerHourText = string.format('|cff888888Level XP: |cffffffff%s |cff888888 / h %s\n', xpPerHour, xpPercentageOfLevelPerHourText)
 	local timeToLevel = string.format('|cff888888Time to level: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel))
+	local timeToLevel60 = string.format('|cff888888Time to level 60: |cffffffff%s\n', Utils:GetEstTimeText(timeToLevel60))
 
-	XpTracker_Frame_ExpLevel:SetText(xpPerHourText .. timeToLevel)
+	XpTracker_Frame_ExpLevel:SetText(xpPerHourText .. timeToLevel..timeToLevel60)
 end
 
 function XpTracker_GetExperienceData()
@@ -109,7 +111,7 @@ function XpTracker_GetExperienceData()
 	local restedXPText = string.format('|cffFFF569( %s rested)', restedXP)
 	local currentXPText = string.format('|cff888888Current XP: |cffffffff%s %s\n', currentXP, restedXPText)
 	local percentageText = string.format('|cffFFF569( %s%% )', percentage)
-	local toLevelText = string.format('|cff888888XP: |cffffffff%s |cff888888to level %s\n', XPToLevel, percentageText)
+	local toLevelText = string.format('|cff888888XP to level: |cffffffff%s %s\n', XPToLevel, percentageText)
 	
 	local lastKillXP = session.lastKillXP;
 	local estimatedKillsToLevel = 'N/A'
@@ -121,4 +123,3 @@ function XpTracker_GetExperienceData()
 
 	XpTracker_Frame_ExpText:SetText(currentXPText .. toLevelText .. estimatedKillsToLevelText)
 end
-

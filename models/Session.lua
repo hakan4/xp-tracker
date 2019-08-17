@@ -39,6 +39,7 @@ function Session:GetData()
 	local xpPerHour = math.floor(self.XP / sessionTime * 3600 + 0.5)
 	local timeToLevel = (self.XP == 0) and -1 or toLevelXP / self.XP * sessionTime
     local xpPercentageOfLevelPerHour = math.ceil((xpPerHour / totalXP) * 10000) / 100
+    local timeToLevel60 = Experience:GetXPNeededTolevel(60) / self.XP * sessionTime
 
-    return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour
+    return xpPerHour, timeToLevel, xpPercentageOfLevelPerHour, timeToLevel60
 end

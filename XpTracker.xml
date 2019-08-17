@@ -1,11 +1,11 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
 <Script file="XpTracker.lua"/>
-<Script file="Level.lua"/>
-<Script file="Session.lua"/>
-<Script file="Experience.lua"/>
-<Script file="Utils.lua"/>
+<Script file="models/Level.lua"/>
+<Script file="models/Session.lua"/>
+<Script file="models/Experience.lua"/>
+<Script file="models/Utils.lua"/>
 <Frame name="XpTracker_Frame" frameStrata="DIALOG" parent="UIParent" movable="true">
-	<Size><AbsDimension x="215" y="155"/></Size>
+	<Size><AbsDimension x="215" y="175"/></Size>
 	<Anchors><Anchor point="CENTER"/></Anchors>
 	<Scripts>
 		<OnLoad>XpTracker_OnLoad(self);</OnLoad>

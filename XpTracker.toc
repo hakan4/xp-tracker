@@ -2,7 +2,7 @@
 ## Version: 0.1
 ## Author: hakan4
 ## eMail: hakan@biqoro.com
-## Interface: 80200
+## Interface: 11302
 ## SavedVariablesPerCharacter: XpTracker_SavedVariables
 ## Notes: Shows the amount of XP needed to level up and other information related to EXP in a tooltip and/or customizeable overlay frame.
 XpTracker.xml
